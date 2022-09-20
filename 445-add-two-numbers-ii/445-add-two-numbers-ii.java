@@ -11,33 +11,22 @@
 class Solution {
     public ListNode addTwoNumbers(ListNode first, ListNode second) {
          int carry =  0, value = 0;
-        ListNode sentinel = null;
-        
+        ListNode sentinel = new ListNode(0);
+        ListNode curr = sentinel;
         first = reverseList(first);
         second = reverseList(second);
         
-        while(first != null ||  second != null){
+        while(first != null ||  second != null || carry != 0){
             int a = first != null ? first.val : 0;
             int b = second != null ? second.val : 0;
             int sum = a+b+carry;
-            value = sum % 10;
             carry = sum / 10;
-            ListNode newNode = new ListNode(value);
-
-            newNode.next = sentinel;
-            sentinel = newNode;
+            curr.next = new ListNode(sum % 10);
+            curr = curr.next;
             first = first != null ? first.next : null;
             second = second != null ? second.next : null;
-        }
-        
-        if(carry != 0) {
-            ListNode newNode = new ListNode(carry);
-            newNode.next = sentinel;
-            sentinel = newNode;
-        }
-        
-        
-        return sentinel;
+        }    
+        return reverseList(sentinel.next);
     }
     
         static ListNode reverseList(ListNode head) {
